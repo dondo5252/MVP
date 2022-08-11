@@ -27,6 +27,7 @@ const Search = (props) => {
   return (
     <HeaderContainer>
       <InnerContainer>
+      <FilterText  onClick={onClickDrink}>Rum </FilterText>
       <FilterText  onClick={onClickDrink}>Whiskey </FilterText>
       <FilterText  onClick={onClickDrink}>Vodka </FilterText>
       <FilterText  onClick={onClickDrink}>Tequila </FilterText>
@@ -40,6 +41,7 @@ const Search = (props) => {
 
       <FilterText  onClick={toggleModalC}>Add Cocktail </FilterText>
       <FilterText  onClick={props.getCreated}>Created Cocktails</FilterText>
+      <FilterText  >Favorites </FilterText>
       {isOpenC && <CreateDrinkModal getCreated={props.getCreated} closeModal={toggleModalC}/>}
       </InnerContainer>
     </HeaderContainer>
@@ -69,8 +71,8 @@ font-weight:bold;
 white-space: nowrap;
 font-family: 'Nanum Gothic Coding', monospace;
 padding-top: 25px;
-margin-left:10px;
-margin-right:10px;
+margin-left:12px;
+margin-right:12px;
 :hover {
   text-decoration: underline;
   cursor: pointer;
@@ -81,6 +83,6 @@ margin-right:10px;
 
 var SearchForm = styled.form`
 padding-top: 25px;
-margin-left:10px;
-margin-right:10px;
+margin-left:12px;
+margin-right:12px;
 `;
