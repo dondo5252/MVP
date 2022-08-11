@@ -7,10 +7,14 @@ import DrinkIndex from './Components/DrinkIndex.jsx'
 var App = () => {
 
   return(
-    <div>
+    <AppContainer>
       <DrinkIndex/>
-    </div>
+    </AppContainer>
   )
 }
 
 export default App;
+
+const AppContainer = styled.div`
+background-color: #f8f8ff;
+`;

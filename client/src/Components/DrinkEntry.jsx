@@ -29,6 +29,7 @@ export default DrinkEntry
     box-shadow: 5px 7px 7px 0px rgba(0, 0, 0, 0.2);
     flex-direction: column;
     align-items: center;
+    background-color: white;
     border-radius: 10px;
     width: 250px;
     height: 300px;
@@ -65,7 +66,6 @@ export default DrinkEntry
   border-radius:30px;
   background-color: #1C76E2;
   color: #ffffff;
-
   &hover {
     background-color: #15447D;
   }

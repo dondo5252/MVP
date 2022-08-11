@@ -9,9 +9,6 @@ import Search from './Search.jsx'
 var DrinkIndex = () => {
   const [filteredDrinks, setFilteredDrinks] = useState([]);
 
-
-
-
   const getDrinks = (ingredient) => {
     return axios.get('/MVP/filter.php', {params: {c: 'Tequila'}})
     .then((response) => {

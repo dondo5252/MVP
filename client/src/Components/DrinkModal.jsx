@@ -28,11 +28,12 @@ var DrinkModal = (props) => {
   return (
     <StyleBackground>
       <ModalContainer>
+        <TopContainer>
           <DrinkImg src={drinkInfo.strDrinkThumb}  />
           <DName>{drinkInfo.strDrink}</DName>
-          <DrinkContainer>
+
             <Ingredients>
-            <span>Ingredients</span>
+            <InstructionsName>Ingredients</InstructionsName>
             <ul>
               {[...Array(10).keys()].map((index) => {
                 if (drinkInfo[`strIngredient${index}`]) {
@@ -49,11 +50,12 @@ var DrinkModal = (props) => {
               })}
             </ul>
             </Ingredients>
+            </TopContainer>
             {drinkInfo.strInstructions && <Instructions>
               <InstructionsName>Instructions:</InstructionsName>
               <div>{drinkInfo.strInstructions}</div>
             </Instructions>}
-          </DrinkContainer>
+
       </ModalContainer>
     </StyleBackground>
   )
@@ -86,20 +88,21 @@ const StyleBackground =styled.div`
   `;
 
   const DrinkImg = styled.img`
-  position: absolute;
-  width: 160px;
-  height: 160px;
+  width: 500px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 10%;
   `;
 
   const DName = styled.h2`
   position: absolute;
   color: white;
+  text-align: center;
   font-size: 25px;
-  margin-top: 30px;
+  margin-top: 10px;
+  padding-left:15px;
   `;
 
   const DrinkContainer = styled.div`
@@ -113,7 +116,7 @@ const StyleBackground =styled.div`
   const Ingredients = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 400px;
+  padding-right: 20px;
   `;
   const IngrName = styled.span`
   align-items: center;
@@ -156,4 +159,10 @@ const StyleBackground =styled.div`
   font-size: 16px;
   font-weight: bold;
 
+`;
+
+const TopContainer = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
 `;
