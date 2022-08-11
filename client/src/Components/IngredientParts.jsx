@@ -3,15 +3,22 @@ import React, { useState, useEffect } from 'react';
 
 
 const IngredientParts = (props) => {
+console.log(props)
+
+
+const onPartsChange = (e) => {
+  props.partsChange(props.strNum, e.target.value)
+}
 
   return (
     <IngrParts>
-    <select name="parts" id="parts">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
+    <select name="parts" id="parts" onChange={onPartsChange}>
+    <option value="">0</option>
+    <option value="1 oz">1</option>
+    <option value="2 oz">2</option>
+    <option value="3 oz">3</option>
+    <option value="4 oz">4</option>
+    <option value="5 oz">5</option>
 
    </select>
    <select name="desc" id="desc">

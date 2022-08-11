@@ -6,23 +6,36 @@ import IngredientParts from './IngredientParts.jsx'
 
 
 const Ingredient = (props) => {
-  const [ingredient, setIngredient] = useState({
-    "strIngredient1": '',
-    "strIngredient2": '',
-    "strIngredient3": '',
-    "strIngredient4": '',
-    "strIngredient5": '',
-    "strIngredient6": '',
-    "strIngredient7": '',
-    "strIngredient8": '',
-  })
-  const handleChange = (e) => {
-    var value = e.target.value
-    setIngredient({...ingredient, "strIngredient1": value});
-    console.log('hello',e.target.value)
-  };
+  // const [ingredient, setIngredient] = useState({
+  //   "strIngredient1": '',
+  //   "strIngredient2": '',
+  //   "strIngredient3": '',
+  //   "strIngredient4": '',
+  //   "strIngredient5": '',
+  //   "strIngredient6": ''
+  // })
+  // const [parts, setParts] = useState({
+  //   "strMeasure1": "",
+  //   "strMeasure2": "",
+  //   "strMeasure3": "",
+  //   "strMeasure4": "",
+  //   "strMeasure5": "",
+  //   "strMeasure6": ""
+  // })
 
 
+  // const handleChange = (e) => {
+  //   var value = e.target.value
+  //   setIngredient({...ingredient, "strIngredient1": value});
+  //   console.log('hello',e.target.value)
+  // };
+
+  // const partsChange = (num, value) => {
+  //   var name = `strMeasure${num}`
+  //   setParts({...parts, [name]: value});
+  //   console.log(parts, 'parrtststs')
+  // }
+//refactor to be mapped use keys as identifier
   return (
   <AllIngredients>
     <IngrName>Ingredients:</IngrName>
@@ -30,58 +43,58 @@ const Ingredient = (props) => {
       <SingleIngredient>
         <label>
           <IngrInput
-            value={ingredient[`strIngredient1`]}
-            onChange={(e) => setIngredient({...ingredient, "strIngredient1": e.target.value})}
+            value={props.ingr[`strIngredient1`]}
+            onChange={(e) => props.ingredientChange('1', e.target.value)}
           />
         </label>
-        <IngredientParts/>
+        <IngredientParts strNum={'1'} partsChange={props.partsChange}/>
       </SingleIngredient>
       <SingleIngredient>
         <label>
           <IngrInput
-            value={ingredient[`strIngredient2`]}
-            onChange={(e) => setIngredient({...ingredient, "strIngredient2": e.target.value})}
+            value={props.ingr[`strIngredient2`]}
+            onChange={(e) => props.ingredientChange('2', e.target.value)}
           />
         </label>
-          <IngredientParts/>
+          <IngredientParts strNum={'2'} partsChange={props.partsChange}/>
         </SingleIngredient>
         <SingleIngredient>
                 <label>
                   <IngrInput
-                    value={ingredient[`strIngredient3`]}
-                    onChange={(e) => setIngredient({...ingredient, "strIngredient3": e.target.value})}
+                    value={props.ingr[`strIngredient3`]}
+                    onChange={(e) => props.ingredientChange('3', e.target.value)}
                   />
                 </label>
-          <IngredientParts/>
+          <IngredientParts strNum={'3'} partsChange={props.partsChange}/>
         </SingleIngredient>
                 </IngredientContainer>
                 <IngredientContainer>
                 <SingleIngredient>
                 <label>
                   <IngrInput
-                    value={ingredient[`strIngredient4`]}
-                    onChange={(e) => setIngredient({...ingredient, "strIngredient4": e.target.value})}
+                    value={props.ingr[`strIngredient4`]}
+                    onChange={(e) => props.ingredientChange('4', e.target.value)}
                   />
                 </label>
-                <IngredientParts/>
+                <IngredientParts strNum={'4'} partsChange={props.partsChange}/>
         </SingleIngredient>
         <SingleIngredient>
                 <label>
                   <IngrInput
-                    value={ingredient[`strIngredient5`]}
-                    onChange={(e) => setIngredient({...ingredient, "strIngredient5": e.target.value})}
+                    value={props.ingr[`strIngredient5`]}
+                    onChange={(e) => props.ingredientChange('5', e.target.value)}
                   />
                 </label>
-                <IngredientParts/>
+                <IngredientParts strNum={'5'} partsChange={props.partsChange}/>
         </SingleIngredient>
         <SingleIngredient>
                 <label>
                   <IngrInput
-                    value={ingredient[`strIngredient6`]}
-                    onChange={(e) => setIngredient({...ingredient, "strIngredient6": e.target.value})}
+                    value={props.ingr[`strIngredient6`]}
+                    onChange={(e) => props.ingredientChange('6', e.target.value)}
                   />
                 </label>
-                <IngredientParts/>
+                <IngredientParts strNum={'6'} partsChange={props.partsChange}/>
                 </SingleIngredient>
 
     </IngredientContainer>

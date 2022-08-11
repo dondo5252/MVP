@@ -2,13 +2,42 @@ import React, { useState, useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Ingredient from './Ingredient.jsx'
+import {firestore } from '../firebase.js'
+import {addDoc, collection, add} from "@firebase/firestore"
 
 
 var CreateDrinkModal = (props) => {
   const [name, setName] = useState('')
   const [instructions, setInstructions] = useState('')
   const [image, setImage] = useState('');
-  console.log(props)
+  const [ingredient, setIngredient] = useState({
+    "strIngredient1": '',
+    "strIngredient2": '',
+    "strIngredient3": '',
+    "strIngredient4": '',
+    "strIngredient5": '',
+    "strIngredient6": ''
+  })
+  const [parts, setParts] = useState({
+    "strMeasure1": "",
+    "strMeasure2": "",
+    "strMeasure3": "",
+    "strMeasure4": "",
+    "strMeasure5": "",
+    "strMeasure6": ""
+  })
+
+  const partsChange = (num, value) => {
+    var name = `strMeasure${num}`
+    setParts({...parts, [name]: value});
+    console.log(parts, 'parrtststs')
+  }
+
+  const ingredientChange = (num, value) => {
+    var name = `strIngredient${num}`
+    setIngredient({...ingredient, [name]: value});
+    console.log(ingredient, 'parrtststs')
+  }
 
   const hiddenFileInput = React.useRef(null);
 
@@ -22,37 +51,56 @@ var CreateDrinkModal = (props) => {
     setImage(URL.createObjectURL(event.target.files[0]))
   };
 
+  var submitRecipe = async () => {
+    const docRef =  await addDoc(collection(firestore, "Recipes"), {
+      strDrink: name,
+      strDrinkThumb: image,
+      strInstructions: instructions,
+      strIngredient1: ingredient.strIngredient1,
+      strIngredient2: ingredient.strIngredient2,
+      strIngredient3: ingredient.strIngredient3,
+      strIngredient4: ingredient.strIngredient4,
+      strIngredient5: ingredient.strIngredient5,
+      strIngredient6: ingredient.strIngredient6,
+      strMeasure1: parts.strMeasure1,
+      strMeasure2: parts.strMeasure2,
+      strMeasure3: parts.strMeasure3,
+      strMeasure4: parts.strMeasure4,
+      strMeasure5: parts.strMeasure5,
+      strMeasure6: parts.strMeasure6,
+    });
+    props.closeModal()
+    console.log("Document written with ID: ", docRef.id);
+  }
 
   return (
     <StyleBackgroundC>
       <ModalContainerC>
       <CloseIcon className='fa-solid fa-xmark' onClick={props.closeModal}>  </CloseIcon>
-      {/* <CloseButton onClick={props.closeModal}> X </CloseButton> */}
         <TopContainer>
           <Title>Create a Cocktail</Title>
         </TopContainer>
         <NameContainer>
             <NameLabel>
               Name:
-            <NameInput type="text" name="name" value={name} onChange={e => setName(e.target.value)}/>
+            <NameInput type="text" name="name"  value={name} onChange={e => setName(e.target.value)}/>
             </NameLabel>
-          {/* <button type="button">Upload Photo </button> */}
           <div>
           <button type="button" onClick={handleClick}>Upload Image</button>
           <input type="file" style={{display:'none'}}  ref={hiddenFileInput} onChange={handleChange}/>
-
           </div>
           <ImageContainer>
           {image !== '' && <ShrinkImg src={image}/>}
           </ImageContainer>
         </NameContainer>
-        <Ingredient/>
+        <Ingredient partsChange={partsChange} ingredientChange={ingredientChange} ingr={ingredient}/>
         <InstrContainer>
         <label>
           Instructions:
-        <InstrText type="textarea" placeholder="Tell us how to make your cocktail!" value={instructions} maxLength = "1000" onChange={e  => console.log(e.target.value)}/>
+        <InstrText type="textarea" placeholder="Tell us how to make your cocktail!" value={instructions} maxLength = "1000" onChange={e  => setInstructions(event.target.value)}/>
         </label>
         </InstrContainer>
+        <button type="button" onClick={submitRecipe}>Submit</button>
       </ModalContainerC>
 
     </StyleBackgroundC>
@@ -84,7 +132,8 @@ const StyleBackgroundC =styled.div`
     border: 1px solid #888;
     width: 50%;
     max-width: 100%;
-    border-radius: 6px;
+    border-radius: 8px;
+    border: 2.4px solid black;
   `;
 
   const CloseButton = styled.button`
@@ -171,7 +220,6 @@ var CloseIcon = styled.i`
   display: flex;
   font-size: 35px;
   :hover {
-    color: #EF8354;
     text-decoration: none;
     cursor: pointer;
   };

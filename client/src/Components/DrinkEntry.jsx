@@ -5,11 +5,8 @@ import DrinkModal from './DrinkModal.jsx'
 
 const DrinkEntry = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(props)
-
 
   var toggleModal = (event) => {
-
     setIsOpen(!isOpen);
   };
 

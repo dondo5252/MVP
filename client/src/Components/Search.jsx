@@ -13,7 +13,6 @@ const Search = (props) => {
   }
 
   var toggleModalC = (event) => {
-    console.log(isOpenC)
     setIsOpenC(!isOpenC);
   };
 
