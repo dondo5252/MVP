@@ -52,27 +52,57 @@ var CreateDrinkModal = (props) => {
   };
 
   var submitRecipe = async () => {
-    const docRef =  await addDoc(collection(firestore, "Recipes"), {
-      strDrink: name,
-      strDrinkThumb: image,
-      strInstructions: instructions,
-      strIngredient1: ingredient.strIngredient1,
-      strIngredient2: ingredient.strIngredient2,
-      strIngredient3: ingredient.strIngredient3,
-      strIngredient4: ingredient.strIngredient4,
-      strIngredient5: ingredient.strIngredient5,
-      strIngredient6: ingredient.strIngredient6,
-      strMeasure1: parts.strMeasure1,
-      strMeasure2: parts.strMeasure2,
-      strMeasure3: parts.strMeasure3,
-      strMeasure4: parts.strMeasure4,
-      strMeasure5: parts.strMeasure5,
-      strMeasure6: parts.strMeasure6,
+    if(name === '' || image === '' || instructions === '') {
+      alert('Please fill out the required information')
+    } else {
+      const id = Math.floor(Math.random() * 101)
+      const docRef =  await addDoc(collection(firestore, "Recipes"), {
+        idDrink: id,
+        strDrink: name,
+        strDrinkThumb: image,
+        strInstructions: instructions,
+        strIngredient1: ingredient.strIngredient1,
+        strIngredient2: ingredient.strIngredient2,
+        strIngredient3: ingredient.strIngredient3,
+        strIngredient4: ingredient.strIngredient4,
+        strIngredient5: ingredient.strIngredient5,
+        strIngredient6: ingredient.strIngredient6,
+        strMeasure1: parts.strMeasure1,
+        strMeasure2: parts.strMeasure2,
+        strMeasure3: parts.strMeasure3,
+        strMeasure4: parts.strMeasure4,
+        strMeasure5: parts.strMeasure5,
+        strMeasure6: parts.strMeasure6,
     });
     props.closeModal()
     console.log("Document written with ID: ", docRef.id);
   }
+  }
+    //   if(name === '' || image === '' || instructions === '') {
+    //   alert('Please fill out the required information')
+    // } else {
+    // const newRecipeRef = doc(collection(firestore, "Recipes"));
+    // await setDoc(newRecipeRef, {
+    //   strDrink: name,
+    //   strDrinkThumb: image,
+    //   strInstructions: instructions,
+    //   strIngredient1: ingredient.strIngredient1,
+    //   strIngredient2: ingredient.strIngredient2,
+    //   strIngredient3: ingredient.strIngredient3,
+    //   strIngredient4: ingredient.strIngredient4,
+    //   strIngredient5: ingredient.strIngredient5,
+    //   strIngredient6: ingredient.strIngredient6,
+    //   strMeasure1: parts.strMeasure1,
+    //   strMeasure2: parts.strMeasure2,
+    //   strMeasure3: parts.strMeasure3,
+    //   strMeasure4: parts.strMeasure4,
+    //   strMeasure5: parts.strMeasure5,
+    //   strMeasure6: parts.strMeasure6,
+    // });
+  //   props.closeModal()
 
+  // }
+  // }
   return (
     <StyleBackgroundC>
       <ModalContainerC>
@@ -83,7 +113,7 @@ var CreateDrinkModal = (props) => {
         <NameContainer>
             <NameLabel>
               Name:
-            <NameInput type="text" name="name"  value={name} onChange={e => setName(e.target.value)}/>
+            <NameInput type="text" name="name"  value={name} onChange={e => setName(e.target.value)} />
             </NameLabel>
           <div>
           <button type="button" onClick={handleClick}>Upload Image</button>
@@ -100,7 +130,9 @@ var CreateDrinkModal = (props) => {
         <InstrText type="textarea" placeholder="Tell us how to make your cocktail!" value={instructions} maxLength = "1000" onChange={e  => setInstructions(event.target.value)}/>
         </label>
         </InstrContainer>
+        <BotContainer>
         <button type="button" onClick={submitRecipe}>Submit</button>
+        </BotContainer>
       </ModalContainerC>
 
     </StyleBackgroundC>
@@ -225,4 +257,12 @@ var CloseIcon = styled.i`
   };
   height: 30px;
   right: 20px;
+`;
+
+var BotContainer = styled.div`
+  margin-top:10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

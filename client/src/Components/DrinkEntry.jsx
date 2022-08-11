@@ -2,19 +2,25 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import DrinkModal from './DrinkModal.jsx'
+import {firestore } from '../firebase.js'
+import {collection, query, where, getDocs, deleteDoc} from "@firebase/firestore"
 
 const DrinkEntry = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(props, 'asdfasdfasdf')
 
   var toggleModal = (event) => {
     setIsOpen(!isOpen);
   };
 
+
+
   return (
     <EntryContainer onClick={toggleModal}>
       <DrinkPic src={props.drink.strDrinkThumb}  />
       <DrinkName>{props.drink.strDrink}</DrinkName>
-      {isOpen && <DrinkModal drinkId={props.drink.idDrink}/>}
+      {isOpen && props.dataSwitch === "original" && <DrinkModal drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
+      {isOpen && props.dataSwitch === "created" && <DrinkModal drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
     </EntryContainer>
   )
 }
@@ -53,17 +59,5 @@ export default DrinkEntry
     display: flex;
   `;
 
-  const InfoBtn = styled.button`
-  height: 44px;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 900;
-  padding: 16px 32px;
-  margin: 20px;
-  border-radius:30px;
-  background-color: #1C76E2;
-  color: #ffffff;
-  &hover {
-    background-color: #15447D;
-  }
-`;
+
+

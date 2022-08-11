@@ -12,6 +12,7 @@ const DrinkList = (props) => {
                   <DrinkEntry
                     key={index}
                     drink={drink}
+                    dataSwitch={props.dataSwitch}
                   />
                 ))}
                 </DrinksUL>

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import {firestore } from '../firebase.js'
+import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 
 
 var DrinkModal = (props) => {
   const [drinkInfo, setDrinkInfo] = useState({});
+  console.log(props, 'theseeee are the props')
 
   const getDrinkInfo = (id) => {
     console.log("searched word", id)
@@ -21,8 +24,39 @@ var DrinkModal = (props) => {
     })
   }
 
+  var getCreatedDrinks = async () => {
+    const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
+
+    const querySnapshot =  await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      setDrinkInfo(doc.data())
+      console.log(doc.id, " => ", doc.data());
+    });
+  }
+
+  var DeleteonClick = async (e) => {
+    console.log('hello')
+    const collectionRef = collection(firestore, "Recipes")
+    const q =  query(collectionRef, where ("idDrink", "==", props.drinkId));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+      // doc.ref.delete();
+      console.log(doc.ref)
+      deleteDoc(doc.ref)
+    });
+  }
+
   useEffect (() => {
+    if(props.dataSwitch ===  'original') {
     getDrinkInfo(props.drinkId)
+    } else if(props.dataSwitch ===  'created') {
+      // const recipeRef = collection(firestore, "Recipes");
+      // const q = query(recipeRef, where("idDrink", "==", props.drinkId));
+      // console.log(q)
+      getCreatedDrinks()
+
+    }
    }, [props.drinkId ])
 
   return (
@@ -55,13 +89,27 @@ var DrinkModal = (props) => {
               <InstructionsName>Instructions:</InstructionsName>
               <div>{drinkInfo.strInstructions}</div>
             </Instructions>}
-
+            { props.dataSwitch === "created" && <Trash className='fa fa-trash' onClick={DeleteonClick}></Trash>}
       </ModalContainer>
     </StyleBackground>
   )
 }
 export default DrinkModal
 
+const Trash = styled.div`
+
+font-size: 16px;
+margin-top: 20px;
+z-index: 5;
+font-size: 20px;
+:hover {
+  text-decoration: none;
+  cursor: pointer;
+};
+height: 20px;
+right: 200px;
+
+`;
 
 const StyleBackground =styled.div`
   display: flex;

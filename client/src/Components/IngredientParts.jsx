@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 
 const IngredientParts = (props) => {
-console.log(props)
+
 
 
 const onPartsChange = (e) => {

@@ -16,5 +16,12 @@ var App = () => {
 export default App;
 
 const AppContainer = styled.div`
-background-color: #f8f8ff;
+margin:0;
+
+background-color: #06273a;
 `;
+// display: flex;
+// flex-direction: column;
+// justify-content: center;
+// align-items: center;
+// background-color: #06273a;

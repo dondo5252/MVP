@@ -3,11 +3,23 @@ import axios from 'axios';
 import styled from 'styled-components';
 import DrinkList from './DrinkList.jsx'
 import Search from './Search.jsx'
+import {firestore } from '../firebase.js'
+import {getDocs, collection} from "@firebase/firestore"
 
 
 
 var DrinkIndex = () => {
   const [filteredDrinks, setFilteredDrinks] = useState([]);
+  const [createdData, setCreatedData] = useState([])
+  const [dataSwitch, setDataSwitch] = useState('original')
+
+  const switchDataO = () => {
+    setDataSwitch('original')
+  }
+
+  const switchDataC = () => {
+    setDataSwitch('created')
+  }
 
   const getDrinks = (ingredient) => {
     return axios.get('/MVP/filter.php', {params: {c: 'Tequila'}})
@@ -38,17 +50,29 @@ var DrinkIndex = () => {
     })
   }
 
+  var getCreated = async () => {
+    var data = []
+    const querySnapshot = await getDocs(collection(firestore, "Recipes"));
+      querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+      data.push(doc.data())
+      console.log(doc.id, " => ", doc.data());
+    });
+    setCreatedData(data)
+    setDataSwitch('created')
+  }
 
 
 
  useEffect (() => {
   getDrinks()
- }, [])
+ }, [dataSwitch])
 
   return(
     <div>
-      <Search search={SearchDrinks}/>
-      <DrinkList filteredDrinks={filteredDrinks}/>
+      <Search search={SearchDrinks} getCreated={getCreated} switchData={switchDataO}/>
+      {dataSwitch === 'original' && <DrinkList filteredDrinks={filteredDrinks} dataSwitch={dataSwitch}/>}
+      {dataSwitch === 'created' && <DrinkList filteredDrinks={createdData} dataSwitch={dataSwitch}/>}
     </div>
   )
 }
