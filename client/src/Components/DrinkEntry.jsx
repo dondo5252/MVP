@@ -34,8 +34,8 @@ export default DrinkEntry
     align-items: center;
     background-color: white;
     border-radius: 10px;
-    width: 250px;
-    height: 300px;
+    width: 300px;
+    height: 350px;
     display: flex;
     :hover {
       box-shadow: 8px 10px 10px 0px rgba(0, 0, 0, 0.3);

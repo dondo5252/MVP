@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import {firestore } from '../firebase.js'
-import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc, onSnapshot } from "firebase/firestore";
 
 
 var DrinkModal = (props) => {
@@ -25,15 +25,28 @@ var DrinkModal = (props) => {
   }
 
   var getCreatedDrinks = async () => {
+    // const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
+
+    // const querySnapshot =  await getDocs(q);
+    // querySnapshot.forEach((doc) => {
+    //   // doc.data() is never undefined for query doc snapshots
+    //   setDrinkInfo(doc.data())
+    //   console.log(doc.id, " => ", doc.data());
+    // });
     const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
 
-    const querySnapshot =  await getDocs(q);
-    querySnapshot.forEach((doc) => {
+    const unsub = onSnapshot(q, (querySnapshot) => {
+          querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       setDrinkInfo(doc.data())
       console.log(doc.id, " => ", doc.data());
     });
+      // console.log("Data", querySnapshot.docs.map(doc => doc.data()));
+      // setDrinkInfo(doc.data())
+    });
   }
+
+
 
   var DeleteonClick = async (e) => {
     console.log('hello')
@@ -41,10 +54,14 @@ var DrinkModal = (props) => {
     const q =  query(collectionRef, where ("idDrink", "==", props.drinkId));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-      // doc.ref.delete();
-      console.log(doc.ref)
       deleteDoc(doc.ref)
+      console.log(drinkInfo)
     });
+
+    // const w = await getCreatedDrinks()
+
+      getCreatedDrinks();
+      console.log('hello')
   }
 
   useEffect (() => {

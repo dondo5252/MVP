@@ -35,6 +35,25 @@ var DrinkIndex = () => {
     })
   }
 
+  const getDrinksbyAlc = (liquor) => {
+    console.log(liquor)
+    return axios.get('/MVP/alc', {params: {i: liquor}})
+    .then((response) => {
+      console.log('these are your results front end ,', response.data.drinks)
+      return response.data.drinks
+    })
+    .then((response) => {
+
+      setFilteredDrinks(response)
+    })
+    .then((response) => {
+      setDataSwitch('original')
+    })
+    .catch((error) => {
+      console.log('Error in front end get drinks  by alc', error);
+    })
+  }
+
   const SearchDrinks = (word) => {
     console.log("searched word", word)
     return axios.get('/MVP/search.php', {params: {s: word}})
@@ -60,25 +79,33 @@ var DrinkIndex = () => {
     });
     setCreatedData(data)
     setDataSwitch('created')
+
   }
 
 
 
  useEffect (() => {
   getDrinks()
+  if(dataSwitch === 'orginal') {
+    console.log(original)
+  }
  }, [dataSwitch])
 
   return(
     <div>
-      <Search search={SearchDrinks} getCreated={getCreated} switchData={switchDataO}/>
-      {dataSwitch === 'original' && <DrinkList filteredDrinks={filteredDrinks} dataSwitch={dataSwitch}/>}
-      {dataSwitch === 'created' && <DrinkList filteredDrinks={createdData} dataSwitch={dataSwitch}/>}
+      <Search search={SearchDrinks} getCreated={getCreated} switchData={switchDataO} drinksbyAlc={getDrinksbyAlc}/>
+      {dataSwitch === 'original' && <DrinkListCont><DrinkList filteredDrinks={filteredDrinks} dataSwitch={dataSwitch}/></DrinkListCont>}
+      {dataSwitch === 'created' && <DrinkListCont><DrinkList filteredDrinks={createdData} dataSwitch={dataSwitch}/></DrinkListCont>}
     </div>
   )
 }
 
 export default DrinkIndex;
-
+const DrinkListCont = styled.div`
+padding-top:60px;
+min-height: 100vh;
+background-color: #06273a;
+`;
 
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';

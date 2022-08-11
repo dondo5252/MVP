@@ -17,6 +17,11 @@ var getDrinkbyID = (id) => {
   return axios.get(`http://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
 }
 
+var getDrinkbyAlc = (ingredient) => {
+  return axios.get(`http://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`);
+}
+
 module.exports.getDrinksbyCategory = getDrinksbyCategory;
 module.exports.searchDrinks = searchDrinks;
 module.exports.getDrinkbyID = getDrinkbyID;
+module.exports.getDrinkbyAlc = getDrinkbyAlc;

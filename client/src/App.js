@@ -16,8 +16,8 @@ var App = () => {
 export default App;
 
 const AppContainer = styled.div`
-margin:0;
 
+height: 100vh;
 background-color: #06273a;
 `;
 // display: flex;
