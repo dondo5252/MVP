@@ -11,6 +11,7 @@ import {getDocs, collection} from "@firebase/firestore"
 var DrinkIndex = () => {
   const [filteredDrinks, setFilteredDrinks] = useState([]);
   const [createdData, setCreatedData] = useState([])
+  const [favorites, setFavorites] = useState([])
   const [dataSwitch, setDataSwitch] = useState('original')
 
   const switchDataO = () => {
@@ -89,13 +90,14 @@ var DrinkIndex = () => {
   if(dataSwitch === 'orginal') {
     console.log(original)
   }
+
  }, [dataSwitch])
 
   return(
     <div>
       <Search search={SearchDrinks} getCreated={getCreated} switchData={switchDataO} drinksbyAlc={getDrinksbyAlc}/>
       {dataSwitch === 'original' && <DrinkListCont><DrinkList filteredDrinks={filteredDrinks} dataSwitch={dataSwitch}/></DrinkListCont>}
-      {dataSwitch === 'created' && <DrinkListCont><DrinkList filteredDrinks={createdData} dataSwitch={dataSwitch}/></DrinkListCont>}
+      {dataSwitch === 'created' && <DrinkListCont><DrinkList getCreated={getCreated} filteredDrinks={createdData} dataSwitch={dataSwitch}/></DrinkListCont>}
     </div>
   )
 }

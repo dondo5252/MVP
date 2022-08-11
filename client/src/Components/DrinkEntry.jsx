@@ -20,7 +20,7 @@ const DrinkEntry = (props) => {
       <DrinkPic src={props.drink.strDrinkThumb}  />
       <DrinkName>{props.drink.strDrink}</DrinkName>
       {isOpen && props.dataSwitch === "original" && <DrinkModal drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
-      {isOpen && props.dataSwitch === "created" && <DrinkModal drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
+      {isOpen && props.dataSwitch === "created" && <DrinkModal getCreated={props.getCreated} drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
     </EntryContainer>
   )
 }

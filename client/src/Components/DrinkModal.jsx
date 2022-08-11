@@ -7,6 +7,8 @@ import { collection, query, where, getDocs, deleteDoc, onSnapshot } from "fireba
 
 var DrinkModal = (props) => {
   const [drinkInfo, setDrinkInfo] = useState({});
+  const [deleteDrink, setDeleteDrink] = useState(false)
+
   console.log(props, 'theseeee are the props')
 
   const getDrinkInfo = (id) => {
@@ -25,28 +27,37 @@ var DrinkModal = (props) => {
   }
 
   var getCreatedDrinks = async () => {
-    // const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
-
-    // const querySnapshot =  await getDocs(q);
-    // querySnapshot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   setDrinkInfo(doc.data())
-    //   console.log(doc.id, " => ", doc.data());
-    // });
     const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
 
-    const unsub = onSnapshot(q, (querySnapshot) => {
-          querySnapshot.forEach((doc) => {
+    const querySnapshot =  await getDocs(q);
+    querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       setDrinkInfo(doc.data())
       console.log(doc.id, " => ", doc.data());
     });
-      // console.log("Data", querySnapshot.docs.map(doc => doc.data()));
-      // setDrinkInfo(doc.data())
-    });
+    // const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
+
+    // const unsub = onSnapshot(q, (querySnapshot) => {
+    //       querySnapshot.forEach((doc) => {
+    //   // doc.data() is never undefined for query doc snapshots
+    //   setDrinkInfo(doc.data())
+    //   console.log(doc.id, " => ", doc.data());
+    // });
+    //   // console.log("Data", querySnapshot.docs.map(doc => doc.data()));
+    //   // setDrinkInfo(doc.data())
+    // });
   }
-
-
+  var promiseExecution = async () => {
+    let promise = await Promise.all([
+      DeleteonClick(),
+      setDeleteDrink(),
+      getCreatedDrinks()
+    ]);
+  };
+  var setDelete = () => {
+    setDeleted(true)
+    console.log()
+  };
 
   var DeleteonClick = async (e) => {
     console.log('hello')
@@ -57,10 +68,8 @@ var DrinkModal = (props) => {
       deleteDoc(doc.ref)
       console.log(drinkInfo)
     });
-
     // const w = await getCreatedDrinks()
-
-      getCreatedDrinks();
+      props.getCreated()
       console.log('hello')
   }
 
@@ -72,9 +81,11 @@ var DrinkModal = (props) => {
       // const q = query(recipeRef, where("idDrink", "==", props.drinkId));
       // console.log(q)
       getCreatedDrinks()
-
     }
-   }, [props.drinkId ])
+    if(deleteDrink) {
+      getCreatedDrinks()
+    }
+   }, [props.drinkId, props.dataSwitch,deleteDrink ])
 
   return (
     <StyleBackground>
@@ -106,15 +117,46 @@ var DrinkModal = (props) => {
               <InstructionsName>Instructions:</InstructionsName>
               <div>{drinkInfo.strInstructions}</div>
             </Instructions>}
-            { props.dataSwitch === "created" && <Trash className='fa fa-trash' onClick={DeleteonClick}></Trash>}
+            { props.dataSwitch === "created" && <Trash className='fa fa-trash' onClick={promiseExecution}></Trash>}
+            { props.dataSwitch === "created" && <Heart className="fa-regular fa-heart" onClick={promiseExecution}></Heart>}
+            { props.dataSwitch === "original" && <HeartO className="fa-regular fa-heart" onClick={promiseExecution}></HeartO>}
       </ModalContainer>
     </StyleBackground>
   )
 }
 export default DrinkModal
 
-const Trash = styled.div`
+const Trash = styled.i`
 
+font-size: 16px;
+margin-top: 20px;
+z-index: 5;
+font-size: 20px;
+:hover {
+  text-decoration: none;
+  cursor: pointer;
+};
+height: 20px;
+right: 200px;
+
+`;
+
+const HeartO = styled.i`
+font-size: 16px;
+margin-top: 20px;
+z-index: 5;
+font-size: 20px;
+:hover {
+  text-decoration: none;
+  cursor: pointer;
+};
+height: 20px;
+right: 200px;
+
+`;
+
+const Heart = styled.i`
+padding-left: 10px;
 font-size: 16px;
 margin-top: 20px;
 z-index: 5;

@@ -13,6 +13,7 @@ const DrinkList = (props) => {
                     key={index}
                     drink={drink}
                     dataSwitch={props.dataSwitch}
+                    getCreated={props.getCreated}
                   />
                 ))}
                 </DrinksUL>

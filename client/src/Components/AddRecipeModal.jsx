@@ -75,6 +75,7 @@ var CreateDrinkModal = (props) => {
         strMeasure6: parts.strMeasure6,
     });
     props.closeModal()
+    props.getCreated()
     console.log("Document written with ID: ", docRef.id);
   }
   }

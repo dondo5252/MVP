@@ -40,7 +40,7 @@ const Search = (props) => {
 
       <FilterText  onClick={toggleModalC}>Add Cocktail </FilterText>
       <FilterText  onClick={props.getCreated}>Created Cocktails</FilterText>
-      {isOpenC && <CreateDrinkModal closeModal={toggleModalC}/>}
+      {isOpenC && <CreateDrinkModal getCreated={props.getCreated} closeModal={toggleModalC}/>}
       </InnerContainer>
     </HeaderContainer>
   )
@@ -51,7 +51,7 @@ export default Search
 var HeaderContainer = styled.div`
   position: fixed;
   width: 100%;
-
+  height:70px;
   z-index:10;
   background: rgb(2,0,36);
   background: linear-gradient(rgb(0, 0, 0) 0px, rgb(3, 22, 33) 64.2%, rgb(6, 39, 58) 100%);
@@ -68,7 +68,7 @@ font-size: 20px;
 font-weight:bold;
 white-space: nowrap;
 font-family: 'Nanum Gothic Coding', monospace;
-padding-top: 20px;
+padding-top: 25px;
 margin-left:10px;
 margin-right:10px;
 :hover {
@@ -77,9 +77,10 @@ margin-right:10px;
   color: #E02929;
 };
 `;
+// color: #E02929;
 
 var SearchForm = styled.form`
-padding-top: 20px;
+padding-top: 25px;
 margin-left:10px;
 margin-right:10px;
 `;
