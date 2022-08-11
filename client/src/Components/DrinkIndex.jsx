@@ -22,8 +22,8 @@ var DrinkIndex = () => {
     setDataSwitch('created')
   }
 
-  const getDrinks = (ingredient) => {
-    return axios.get('/MVP/filter.php', {params: {c: 'Tequila'}})
+  const getDrinks = (ingredient = 'Tequila') => {
+    return axios.get('/MVP/filter.php', {params: {c: ingredient}})
     .then((response) => {
       console.log('these are your results front end ,', response.data.drinks)
       return response.data.drinks
