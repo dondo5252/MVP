@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import {firestore } from '../firebase.js'
-import { collection, query, where, getDocs, deleteDoc, onSnapshot } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc, onSnapshot, addDoc } from "firebase/firestore";
 
 
 var DrinkModal = (props) => {
   const [drinkInfo, setDrinkInfo] = useState({});
   const [deleteDrink, setDeleteDrink] = useState(false)
 
-  console.log(props, 'theseeee are the props')
 
   const getDrinkInfo = (id) => {
     console.log("searched word", id)
     return axios.get('/MVP/lookup.php', {params: {i: id}})
     .then((response) => {
+      console.log(response.data.drinks[0], 'ddddddddddd')
       return response.data.drinks[0]
     })
     .then((response) => {
@@ -35,6 +35,8 @@ var DrinkModal = (props) => {
       setDrinkInfo(doc.data())
       console.log(doc.id, " => ", doc.data());
     });
+
+
     // const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
 
     // const unsub = onSnapshot(q, (querySnapshot) => {
@@ -47,6 +49,17 @@ var DrinkModal = (props) => {
     //   // setDrinkInfo(doc.data())
     // });
   }
+
+  var getFavoriteDrinks = async () => {
+    const q = query(collection(firestore, "Favorites"), where("idDrink", "==", props.drinkId));
+    const querySnapshot =  await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      setDrinkInfo(doc.data())
+      console.log(doc.id, " => ", doc.data());
+    });
+  }
+
   var promiseExecution = async () => {
     let promise = await Promise.all([
       DeleteonClick(),
@@ -54,9 +67,9 @@ var DrinkModal = (props) => {
       getCreatedDrinks()
     ]);
   };
+
   var setDelete = () => {
     setDeleted(true)
-    console.log()
   };
 
   var DeleteonClick = async (e) => {
@@ -68,9 +81,31 @@ var DrinkModal = (props) => {
       deleteDoc(doc.ref)
       console.log(drinkInfo)
     });
-    // const w = await getCreatedDrinks()
       props.getCreated()
       console.log('hello')
+  }
+
+  var addFav = async () => {
+      const id = Math.floor(Math.random() * 5000)
+      const docRef =  await addDoc(collection(firestore, "Favorites"), {
+        idDrink: id,
+        strDrink: drinkInfo.strDrink,
+        strDrinkThumb: drinkInfo.strDrinkThumb,
+        strInstructions: drinkInfo.strInstructions,
+        strIngredient1: drinkInfo.strIngredient1,
+        strIngredient2: drinkInfo.strIngredient2,
+        strIngredient3: drinkInfo.strIngredient3,
+        strIngredient4: drinkInfo.strIngredient4,
+        strIngredient5: drinkInfo.strIngredient5,
+        strIngredient6: drinkInfo.strIngredient6,
+        strMeasure1: drinkInfo.strMeasure1,
+        strMeasure2: drinkInfo.strMeasure2,
+        strMeasure3: drinkInfo.strMeasure3,
+        strMeasure4: drinkInfo.strMeasure4,
+        strMeasure5: drinkInfo.strMeasure5,
+        strMeasure6: drinkInfo.strMeasure6,
+    });
+    console.log("Document written with ID: ", docRef.id);
   }
 
   useEffect (() => {
@@ -81,6 +116,8 @@ var DrinkModal = (props) => {
       // const q = query(recipeRef, where("idDrink", "==", props.drinkId));
       // console.log(q)
       getCreatedDrinks()
+    } else if(props.dataSwitch ===  'Favorites' ) {
+      getFavoriteDrinks()
     }
     if(deleteDrink) {
       getCreatedDrinks()
@@ -118,126 +155,126 @@ var DrinkModal = (props) => {
               <div>{drinkInfo.strInstructions}</div>
             </Instructions>}
             { props.dataSwitch === "created" && <Trash className='fa fa-trash' onClick={promiseExecution}></Trash>}
-            { props.dataSwitch === "created" && <Heart className="fa-regular fa-heart" onClick={promiseExecution}></Heart>}
-            { props.dataSwitch === "original" && <HeartO className="fa-regular fa-heart" onClick={promiseExecution}></HeartO>}
+            { props.dataSwitch === "created" && <Heart className="fa-solid fa-heart" onClick={addFav}></Heart>}
+            { props.dataSwitch === "original" && <HeartO className="fa-solid fa-heart" onClick={addFav}></HeartO>}
       </ModalContainer>
     </StyleBackground>
   )
 }
 export default DrinkModal
 
-const Trash = styled.i`
+  const Trash = styled.i`
+    font-size: 16px;
+    margin-top: 20px;
+    z-index: 5;
+    font-size: 20px;
+    :hover {
+      text-decoration: none;
+      cursor: pointer;
+    };
+    height: 20px;
+    right: 200px;
 
-font-size: 16px;
-margin-top: 20px;
-z-index: 5;
-font-size: 20px;
-:hover {
-  text-decoration: none;
-  cursor: pointer;
-};
-height: 20px;
-right: 200px;
+  `;
 
-`;
+  const HeartO = styled.i`
+    font-size: 16px;
+    margin-top: 20px;
+    z-index: 55;
+    font-size: 20px;
+    :hover {
+      color: red;
+      cursor: pointer;
+    };
+    height: 20px;
+    right: 200px;
+  `;
 
-const HeartO = styled.i`
-font-size: 16px;
-margin-top: 20px;
-z-index: 5;
-font-size: 20px;
-:hover {
-  text-decoration: none;
-  cursor: pointer;
-};
-height: 20px;
-right: 200px;
+  const Heart = styled.i`
+    padding-left: 10px;
+    font-size: 16px;
+    margin-top: 20px;
+    z-index: 55;
+    font-size: 20px;
+    :hover {
+      text-decoration: none;
+      cursor: pointer;
+    };
+    height: 20px;
+    right: 200px;
 
-`;
+  `;
 
-const Heart = styled.i`
-padding-left: 10px;
-font-size: 16px;
-margin-top: 20px;
-z-index: 5;
-font-size: 20px;
-:hover {
-  text-decoration: none;
-  cursor: pointer;
-};
-height: 20px;
-right: 200px;
-
-`;
-
-const StyleBackground =styled.div`
-  display: flex;
-  position: fixed;
-  flex-direction: column;
-  z-index: 44;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  backdrop-filter: blur(5px);
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  const StyleBackground =styled.div`
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    z-index: 44;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    backdrop-filter: blur(5px);
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
   `;
 
   const ModalContainer = styled.div`
-  background-color: #fefefe;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 50%;
-  border-radius: 6px;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 6px;
   `;
 
   const DrinkImg = styled.img`
-  width: 500px;
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10%;
+    display: flex;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    justify-content: center;
+    border-radius: 10%;
   `;
 
   const DName = styled.h2`
-  position: absolute;
-  color: white;
-  text-align: center;
-  font-size: 25px;
-  margin-top: 10px;
-  padding-left:15px;
+    position: absolute;
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 10px;
+    padding-left:15px;
   `;
 
   const DrinkContainer = styled.div`
-  margin: 15px -15px 0 0;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-  padding-right: 15px;
+    margin: 15px -15px 0 0;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding-right: 15px;
   `;
 
   const Ingredients = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-right: 20px;
+    display: flex;
+    flex-direction: column;
+    padding-right: 20px;
   `;
+
   const IngrName = styled.span`
-  align-items: center;
-  justify-content: stretch;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  font-size: 18px;
+    align-items: center;
+    justify-content: stretch;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    font-family: 'Roboto';
   `;
 
   const IngrAmount = styled.span`
+    margin: 5px 0 0 10px;
     font-size: 12px;
     font-weight: bold;
-    margin: 5px 0 0 10px;
   `;
 
   const IngList = styled.li`
@@ -247,13 +284,13 @@ const StyleBackground =styled.div`
   `;
 
   const IngrTitle = styled.span`
-  flex-direction: row;
-  align-items: center;
-  position: relative;
-  display: flex;
-  justify-content: stretch;
-  font-size: 18px;
-  font-weight: 100;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    display: flex;
+    justify-content: stretch;
+    font-size: 18px;
+    font-weight: 100;
   `;
 
   const Instructions = styled.div`
@@ -265,11 +302,10 @@ const StyleBackground =styled.div`
   const InstructionsName = styled.span`
   font-size: 16px;
   font-weight: bold;
-
-`;
+  `;
 
 const TopContainer = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-`;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  `;

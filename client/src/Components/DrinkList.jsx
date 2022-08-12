@@ -14,6 +14,7 @@ const DrinkList = (props) => {
                     drink={drink}
                     dataSwitch={props.dataSwitch}
                     getCreated={props.getCreated}
+                    getFavorites={props.getFavorites}
                   />
                 ))}
                 </DrinksUL>
@@ -23,7 +24,7 @@ const DrinkList = (props) => {
 }
 export default DrinkList
 
-  const Drinks = styled.section`
+  const Drinks = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 50px;
