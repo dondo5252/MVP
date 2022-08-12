@@ -111,7 +111,7 @@ var DrinkIndex = () => {
       <Search fav={getFavorites}search={SearchDrinks} getCreated={getCreated} switchDataF={switchDataF} switchData={switchDataO} drinksbyAlc={getDrinksbyAlc}/>
       {dataSwitch === 'original' && <DrinkListCont><DrinkList filteredDrinks={filteredDrinks} dataSwitch={dataSwitch}/></DrinkListCont>}
       {dataSwitch === 'created' && <DrinkListCont><DrinkList getCreated={getCreated} filteredDrinks={createdData} dataSwitch={dataSwitch}/></DrinkListCont>}
-      {dataSwitch === 'Favorites' && <DrinkListCont><DrinkList getFavorites={getFavorites} filteredDrinks={favorites} dataSwitch={dataSwitch}/></DrinkListCont>}
+      {dataSwitch === 'Favorites' && <DrinkListCont><DrinkList getFavorites={getFavorites} filteredDrinks={favorites} dataSwitch={dataSwitch} /></DrinkListCont>}
     </div>
   )
 }

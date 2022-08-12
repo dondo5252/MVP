@@ -85,6 +85,19 @@ var DrinkModal = (props) => {
       console.log('hello')
   }
 
+  var DeleteFavonClick = async (e) => {
+    console.log('hello')
+    const collectionRef = collection(firestore, "Favorites")
+    const q =  query(collectionRef, where ("idDrink", "==", props.drinkId));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref)
+      console.log(drinkInfo)
+    });
+      props.getFavorites()
+      console.log('hello')
+  }
+
   var addFav = async () => {
       const id = Math.floor(Math.random() * 5000)
       const docRef =  await addDoc(collection(firestore, "Favorites"), {
@@ -155,8 +168,10 @@ var DrinkModal = (props) => {
               <div>{drinkInfo.strInstructions}</div>
             </Instructions>}
             { props.dataSwitch === "created" && <Trash className='fa fa-trash' onClick={promiseExecution}></Trash>}
+            { props.dataSwitch === "Favorites" && <Trash className='fa fa-trash' onClick={DeleteFavonClick}></Trash>}
             { props.dataSwitch === "created" && <Heart className="fa-solid fa-heart" onClick={addFav}></Heart>}
             { props.dataSwitch === "original" && <HeartO className="fa-solid fa-heart" onClick={addFav}></HeartO>}
+
       </ModalContainer>
     </StyleBackground>
   )
