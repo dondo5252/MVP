@@ -7,7 +7,7 @@ import {collection, query, where, getDocs, deleteDoc} from "@firebase/firestore"
 
 const DrinkEntry = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(props, 'asdfasdfasdghjgfhfghf')
+
 
   var toggleModal = (event) => {
     setIsOpen(!isOpen);

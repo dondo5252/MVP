@@ -3,6 +3,7 @@ var router = require('express').Router()
 var API = require('./HR_API.jsx');
 
 router.get('/filter.php', (request, response) => {
+
     API.getDrinksbyCategory(request.query.c)
       .then((results) => {
         response.status(200).send(results.data);
@@ -14,6 +15,7 @@ router.get('/filter.php', (request, response) => {
 });
 
 router.get('/search.php', (request, response) => {
+
     API.searchDrinks(request.query.s)
       .then((results) => {
         response.status(200).send(results.data);
@@ -25,6 +27,7 @@ router.get('/search.php', (request, response) => {
 });
 
 router.get('/lookup.php', (request, response) => {
+
     API.getDrinkbyID(request.query.i)
       .then((results) => {
         response.status(200).send(results.data);
@@ -36,6 +39,7 @@ router.get('/lookup.php', (request, response) => {
 });
 
 router.get('/alc', (request, response) => {
+
     API.getDrinkbyAlc(request.query.i)
       .then((results) => {
         response.status(200).send(results.data);
