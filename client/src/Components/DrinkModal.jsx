@@ -11,14 +11,11 @@ var DrinkModal = (props) => {
 
 
   const getDrinkInfo = (id) => {
-    console.log("searched word", id)
     return axios.get('/MVP/lookup.php', {params: {i: id}})
     .then((response) => {
-      console.log(response.data.drinks[0], 'ddddddddddd')
       return response.data.drinks[0]
     })
     .then((response) => {
-      console.log('these are your results search front end ,', response)
       setDrinkInfo(response)
     })
     .catch((error) => {
@@ -28,33 +25,17 @@ var DrinkModal = (props) => {
 
   var getCreatedDrinks = async () => {
     const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
-
     const querySnapshot =  await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       setDrinkInfo(doc.data())
       console.log(doc.id, " => ", doc.data());
     });
-
-
-    // const q = query(collection(firestore, "Recipes"), where("idDrink", "==", props.drinkId));
-
-    // const unsub = onSnapshot(q, (querySnapshot) => {
-    //       querySnapshot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   setDrinkInfo(doc.data())
-    //   console.log(doc.id, " => ", doc.data());
-    // });
-    //   // console.log("Data", querySnapshot.docs.map(doc => doc.data()));
-    //   // setDrinkInfo(doc.data())
-    // });
   }
 
   var getFavoriteDrinks = async () => {
     const q = query(collection(firestore, "Favorites"), where("idDrink", "==", props.drinkId));
     const querySnapshot =  await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       setDrinkInfo(doc.data())
       console.log(doc.id, " => ", doc.data());
     });
@@ -73,7 +54,6 @@ var DrinkModal = (props) => {
   };
 
   var DeleteonClick = async (e) => {
-    console.log('hello')
     const collectionRef = collection(firestore, "Recipes")
     const q =  query(collectionRef, where ("idDrink", "==", props.drinkId));
       const querySnapshot = await getDocs(q);
@@ -84,11 +64,9 @@ var DrinkModal = (props) => {
       setTimeout(() => {
         props.getCreated()
       }, "200")
-      console.log('hello')
   }
 
   var DeleteFavonClick = async (e) => {
-    console.log('hello')
     const collectionRef = collection(firestore, "Favorites")
     const q =  query(collectionRef, where ("idDrink", "==", props.drinkId));
       const querySnapshot = await getDocs(q);
@@ -99,7 +77,6 @@ var DrinkModal = (props) => {
     setTimeout(() => {
       props.getFavorites()
     }, "200")
-      console.log('hello')
   }
 
   var addFav = async () => {
@@ -129,9 +106,6 @@ var DrinkModal = (props) => {
     if(props.dataSwitch ===  'original') {
     getDrinkInfo(props.drinkId)
     } else if(props.dataSwitch ===  'created') {
-      // const recipeRef = collection(firestore, "Recipes");
-      // const q = query(recipeRef, where("idDrink", "==", props.drinkId));
-      // console.log(q)
       getCreatedDrinks()
     } else if(props.dataSwitch ===  'Favorites' ) {
       getFavoriteDrinks()
