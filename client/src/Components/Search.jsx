@@ -21,7 +21,11 @@ const Search = (props) => {
   var onClickDrink = (event) => {
     console.log(event.target.textContent)
     props.drinksbyAlc(event.target.textContent)
+  };
 
+  var onClickFav= (event) => {
+    props.fav()
+    props.switchDataF()
   };
 
   return (
@@ -41,7 +45,7 @@ const Search = (props) => {
 
       <FilterText  onClick={toggleModalC}>Add Cocktail </FilterText>
       <FilterText  onClick={props.getCreated}>Created Cocktails</FilterText>
-      <FilterText  >Favorites </FilterText>
+      <FilterText  onClick={onClickFav}>Favorites </FilterText>
       {isOpenC && <CreateDrinkModal getCreated={props.getCreated} closeModal={toggleModalC}/>}
       </InnerContainer>
     </HeaderContainer>

@@ -7,20 +7,19 @@ import {collection, query, where, getDocs, deleteDoc} from "@firebase/firestore"
 
 const DrinkEntry = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(props, 'asdfasdfasdf')
+  console.log(props, 'asdfasdfasdghjgfhfghf')
 
   var toggleModal = (event) => {
     setIsOpen(!isOpen);
   };
 
-
-
   return (
     <EntryContainer onClick={toggleModal}>
-      <DrinkPic src={props.drink.strDrinkThumb}  />
+      <DrinkPic src={props.drink.strDrinkThumb}/>
       <DrinkName>{props.drink.strDrink}</DrinkName>
       {isOpen && props.dataSwitch === "original" && <DrinkModal drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
       {isOpen && props.dataSwitch === "created" && <DrinkModal getCreated={props.getCreated} drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
+      {isOpen && props.dataSwitch === "Favorites" && <DrinkModal getFavorites={props.getFavorites} drinkId={props.drink.idDrink} dataSwitch={props.dataSwitch}/>}
     </EntryContainer>
   )
 }
@@ -49,6 +48,7 @@ export default DrinkEntry
     font-size: 16px;
     margin-top: 20px;
     text-align: center;
+    font-family: 'Poppins';
   `;
 
   const DrinkPic = styled.img`

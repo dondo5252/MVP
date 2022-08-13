@@ -79,31 +79,7 @@ var CreateDrinkModal = (props) => {
     console.log("Document written with ID: ", docRef.id);
   }
   }
-    //   if(name === '' || image === '' || instructions === '') {
-    //   alert('Please fill out the required information')
-    // } else {
-    // const newRecipeRef = doc(collection(firestore, "Recipes"));
-    // await setDoc(newRecipeRef, {
-    //   strDrink: name,
-    //   strDrinkThumb: image,
-    //   strInstructions: instructions,
-    //   strIngredient1: ingredient.strIngredient1,
-    //   strIngredient2: ingredient.strIngredient2,
-    //   strIngredient3: ingredient.strIngredient3,
-    //   strIngredient4: ingredient.strIngredient4,
-    //   strIngredient5: ingredient.strIngredient5,
-    //   strIngredient6: ingredient.strIngredient6,
-    //   strMeasure1: parts.strMeasure1,
-    //   strMeasure2: parts.strMeasure2,
-    //   strMeasure3: parts.strMeasure3,
-    //   strMeasure4: parts.strMeasure4,
-    //   strMeasure5: parts.strMeasure5,
-    //   strMeasure6: parts.strMeasure6,
-    // });
-  //   props.closeModal()
 
-  // }
-  // }
   return (
     <StyleBackgroundC>
       <ModalContainerC>
@@ -186,7 +162,7 @@ const StyleBackgroundC =styled.div`
   text-align:center;
   display:flex;
   justify-content: center;
-  font-family: 'Nanum Gothic Coding',monospace;
+  font-family: 'Roboto';
   font-weight: bold;
   font-size: 45px;
   white-space: nowrap;

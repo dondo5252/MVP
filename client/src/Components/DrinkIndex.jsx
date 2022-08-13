@@ -18,8 +18,8 @@ var DrinkIndex = () => {
     setDataSwitch('original')
   }
 
-  const switchDataC = () => {
-    setDataSwitch('created')
+  const switchDataF = () => {
+    setDataSwitch('Favorites')
   }
 
   const getDrinks = (ingredient = 'Tequila') => {
@@ -84,6 +84,19 @@ var DrinkIndex = () => {
   }
 
 
+  var getFavorites = async () => {
+    var data = []
+    const querySnapshot = await getDocs(collection(firestore, "Favorites"));
+      querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+      data.push(doc.data())
+      console.log(doc.id, " => ", doc.data());
+    });
+    setFavorites(data)
+    setDataSwitch('Favorites')
+
+  }
+
 
  useEffect (() => {
   getDrinks()
@@ -95,9 +108,10 @@ var DrinkIndex = () => {
 
   return(
     <div>
-      <Search search={SearchDrinks} getCreated={getCreated} switchData={switchDataO} drinksbyAlc={getDrinksbyAlc}/>
+      <Search fav={getFavorites}search={SearchDrinks} getCreated={getCreated} switchDataF={switchDataF} switchData={switchDataO} drinksbyAlc={getDrinksbyAlc}/>
       {dataSwitch === 'original' && <DrinkListCont><DrinkList filteredDrinks={filteredDrinks} dataSwitch={dataSwitch}/></DrinkListCont>}
       {dataSwitch === 'created' && <DrinkListCont><DrinkList getCreated={getCreated} filteredDrinks={createdData} dataSwitch={dataSwitch}/></DrinkListCont>}
+      {dataSwitch === 'Favorites' && <DrinkListCont><DrinkList getFavorites={getFavorites} filteredDrinks={favorites} dataSwitch={dataSwitch} /></DrinkListCont>}
     </div>
   )
 }
