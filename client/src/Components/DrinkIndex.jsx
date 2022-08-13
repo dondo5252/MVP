@@ -9,7 +9,6 @@ import {getDocs, collection} from "@firebase/firestore"
 
 
 var DrinkIndex = () => {
-
   const [filteredDrinks, setFilteredDrinks] = useState([]);
   const [createdData, setCreatedData] = useState([])
   const [favorites, setFavorites] = useState([])
