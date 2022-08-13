@@ -81,7 +81,9 @@ var DrinkModal = (props) => {
       deleteDoc(doc.ref)
       console.log(drinkInfo)
     });
-      props.getCreated()
+      setTimeout(() => {
+        props.getCreated()
+      }, "200")
       console.log('hello')
   }
 
@@ -94,7 +96,9 @@ var DrinkModal = (props) => {
       deleteDoc(doc.ref)
       console.log(drinkInfo)
     });
+    setTimeout(() => {
       props.getFavorites()
+    }, "200")
       console.log('hello')
   }
 
